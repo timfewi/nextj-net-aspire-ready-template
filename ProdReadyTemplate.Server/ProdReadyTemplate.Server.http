@@ -1,0 +1,6 @@
+@ProdReadyTemplate.Server_HostAddress = https://localhost:5001
+
+GET {{ProdReadyTemplate.Server_HostAddress}}/api/weatherforecast/
+Accept: application/json
+
+###
