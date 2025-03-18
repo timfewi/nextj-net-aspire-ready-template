@@ -1,4 +1,3 @@
-using ProdReadyTemplate.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -22,13 +21,12 @@ var server = builder.AddProject<Projects.ProdReadyTemplate_Server>("server")
 
 // Nextjs Frontend
 if (builder.ExecutionContext.IsPublishMode)
-{    
-        builder
-        .AddDockerfile("frontend", "../prodreadytemplate.client")
-        .WithHttpEndpoint(port: 3000, env: "PORT")
-        .WithExternalHttpEndpoints()
-        //.WithEnvironmentPrefix("NEXT_PUBLIC_")
-        .WithEnvironment("SERVER_URL", server.GetEndpoint("https"));
+{
+    builder
+    .AddDockerfile("frontend", "../prodreadytemplate.client")
+    .WithHttpEndpoint(port: 3000, env: "PORT")
+    .WithExternalHttpEndpoints();
+    
 }
 else
 {
@@ -48,8 +46,6 @@ else
      .WithEnvironment("NODE_TLS_REJECT_UNAUTHORIZED", "0")
      .WithEnvironment("SERVER_URL", server.GetEndpoint("https"))
      .PublishAsDockerFile();
-
-    frontend.WithEnvironment("FRONTEND_URL", () => frontend.GetEndpoint("http").Url);
 }
 
 builder.Build().Run();
